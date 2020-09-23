@@ -24,7 +24,7 @@ export const cmd_any_shape = {
     id: 'any_shape',
     main: true,
     fn(message, data) {
-        let as_rows = tryReplace(data, /as_rows|!/i)
+        let as_rows = tryReplace(data, /as_rows/i)
         let no_err = tryReplace(data, /no_err|!/i)
         let no_key = tryReplace(data, /no_key|!/i)
 
