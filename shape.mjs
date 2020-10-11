@@ -165,7 +165,7 @@ function parseShortKey(key, layer) {
             let nsp = 'SCSCW'.repeat(20)
             let ncl = '--'+'rgbcmyw'.repeat(20)
             let lcl = 'rgbcmyw'.repeat(20)
-            return key.split('').map(e=>  e=='0'?'--':e=='1'?e+lcl[layer]:'1'+ncl[e]  ).join('');
+            return key.split('').map(e=>  e=='0'?'--':e=='1'?e+lcl[layer]:nsp[layer]+ncl[e]  ).join('');
         }
         showError(new Error(`key ${escKey} is invalid`));
     }
