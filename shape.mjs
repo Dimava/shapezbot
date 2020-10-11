@@ -106,7 +106,7 @@ function textToHTML(text) {
  * @param {string} key
  * @returns {string}
  */
-function parseShortKey(key) {
+function parseShortKey(key, layer) {
     const emptyLayer = '--'.repeat(4);
     const clr = (A, c) => A == '-' ? '-' : !c || c == '-' ? enumColorToShortcode[allShapeData[enumShortcodeToSubShape[A]]?.spawnColor] || 'u' : c;
 
@@ -159,6 +159,13 @@ function parseShortKey(key) {
         // AcBd -> AcBdAcBd
         if (key.match(/^([A-Z\-][a-z\-]){2}$/)) {
             return `${key[0]}${clr(key[0], key[1])}${key[2]}${clr(key[2], key[3])}`.repeat(2);
+        }
+        // 1010 -> 1r0-1r0-
+        if (key.match(/^(\d){4}$/)) {
+            let nsp = 'SCSCW'.repeat(20)
+            let ncl = '--'+'rgbcmyw'.repeat(20)
+            let lcl = 'rgbcmyw'.repeat(20)
+            return key.split('').map(e=>  e=='0'?'--':e=='1'?e+lcl[layer]:'1'+ncl[e]  ).join('');
         }
         showError(new Error(`key ${escKey} is invalid`));
     }
