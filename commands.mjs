@@ -16,7 +16,7 @@ let cmd_halt = {
 	type: 'always',
 	fn(message, data) {
 		if (
-			!message.content.match(/shapebot|\b!s\b/i) &&
+			!message.content.match(/shapebot|!s\b/i) &&
 			message.guild.id != '728969392569712670' &&
 			message.channel.name != 'shapebot'
 		) {
