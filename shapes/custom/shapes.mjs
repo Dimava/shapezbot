@@ -213,3 +213,18 @@ registerCustomShape({
     draw: "M 0 0 L 0 1 0.4142 1 1 0.4142 1 0 Z",
 })
 
+registerCustomShape({
+    id: "zero",
+    code: "0",
+    ...customDefaults,
+    draw: "M 0 0 z ",
+})
+
+registerCustomShape({
+    id: "one",
+    code: "1",
+    ...customDefaults,
+    draw: "M 0 0 L 0 0.6 1 1 0.6 0 z",
+})
+
+
