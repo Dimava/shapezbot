@@ -166,7 +166,7 @@ export class ShapestItem extends ShapeItem {
 
 
     get layers() {
-        return this.hash.split(':').map(ShapestLayer.create);
+        return this.hash.split(':').filter(Boolean).map(ShapestLayer.create);
     }
 }
 
