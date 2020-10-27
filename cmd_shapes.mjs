@@ -2,7 +2,7 @@ import { Client, MessageAttachment } from 'discord.js';
 import Canvas from 'canvas';
 
 export * from "./shape.mjs";
-import { allColorData, drawShape, customColors, customShapes, registerCustomColor, registerCustomShape, initColors, initShapes } from "./shape.mjs"
+import { allColorData, drawShape, drawShapest, customColors, customShapes, registerCustomColor, registerCustomShape, initColors, initShapes } from "./shape.mjs"
 import { tryReplace, parseArgs } from "./utils.mjs";
 
 function display_shape(message, data, args) {
@@ -78,7 +78,7 @@ function imgShapeSingle(key, typeKey, typeErr) {
     let ctx = cv.getContext('2d')
 
     ctx.save()
-    let errs = drawShape(key, cv, ctx, 100);
+    let errs = drawShapest(key, cv, ctx, 100);
     ctx.restore()
     ctx.font = 'bold 16px "Courier New"'
     ctx.fillStyle = 'red'
@@ -109,7 +109,7 @@ function imgShapeGrid(grid, size, { no_key, no_err, as_rows }) {
 
             ctx.save()
             ctx.translate(i * size, j * (size + keyH))
-            let errs = drawShape(shape, cv, ctx, size);
+            let errs = drawShapest(shape, cv, ctx, size);
             ctx.font = `bold ${0.8 * keyH}px "Courier New"`
             if (errs && errs[0] && !no_err) {
                 ctx.fillStyle = 'red'

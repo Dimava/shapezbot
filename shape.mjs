@@ -429,3 +429,14 @@ export function drawShape(key, canvas, context, size) {
 
     return errs.length ? errs : undefined;
 }
+
+import { ShapestItem } from "./shapest_item.mjs"
+
+
+export function drawShapest(key, canvas, context, size) {
+    if (!ShapestItem.isValidShortKey(key)) return drawShape(key, canvas, context, size);
+
+    new ShapestItem(key).drawFullSizeOnCanvas(context, size);
+
+    return [];
+}
