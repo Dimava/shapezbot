@@ -17,7 +17,7 @@ export const cmd_display_shape = {
     main: true,
 }
 
-const rg_shape = /(?<=\s|"|^)([^:\s"]*:\S*|([A-Z][a-z]|--){4})|\n/g
+const rg_shape = /(?<=\s|"|^)([^:\s"]*:[^\s"]*|([A-Z][a-z]|--){4})|\n/g
 
 export const cmd_any_shape = {
     type: 'always',
