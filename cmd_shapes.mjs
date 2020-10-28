@@ -73,9 +73,12 @@ export const cmd_any_shape = {
             }
             prev = shape
         }
-        console.log({ grid, no_key, no_err, as_rows, no_name })
         if (!row.length) {
             grid.pop()
+        }
+        console.log({ grid, no_key, no_err, as_rows, no_name })
+        if (!grid.length) {
+            return;
         }
 
         message.channel.send(imgShapeGrid(grid, size, { no_key, no_err, as_rows, no_name }))
