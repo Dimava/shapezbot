@@ -145,7 +145,7 @@ function imgShapeGrid(grid, size, { no_key, no_err, as_rows, no_name }) {
                 ctx.fillStyle = 'white'
                 ctx.textAlign = 'end'
                 ctx.textBaseline = 'bottom'
-                ctx.fillText(key, size, size + keyH, size)
+                ctx.fillText(key, size, size + keyH, size - 5)
             }
 
             ctx.restore()
