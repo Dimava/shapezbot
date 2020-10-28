@@ -17,7 +17,7 @@ export const cmd_display_shape = {
     main: true,
 }
 
-const rg_shape = /(?:\s|^)([^:\s]*:\S*|([A-Z][a-z]|--){4})|\n/g
+const rg_shape = /(?<=\s|"|^)([^:\s]*:\S*|([A-Z][a-z]|--){4})|\n/g
 
 export const cmd_any_shape = {
     type: 'always',
@@ -33,6 +33,11 @@ export const cmd_any_shape = {
         let size = Math.round(d.args && +d.args[0] || 100)
         if (!(size >= 1)) size = 100;
 
+        d = parseArgs(data.s, 'cols')
+        data.s = d.s
+        let colCount = Math.round(d.args && +d.args[0] || 10)
+        if (!(colCount >= 1)) colCount = 10;
+
         let allShapesRaw = data.s.match(rg_shape)
         console.log({ s: data.s, allShapesRaw })
         if (!allShapesRaw || !allShapesRaw.find(e => e != '\n')) {
@@ -42,18 +47,27 @@ export const cmd_any_shape = {
         let row = []
         let grid = [row]
         let prev = '\n'
+        let name = ''
         for (let shape of allShapesRaw) {
-            if (shape == '\n') {
-                if (prev != '\n' && as_rows) {
+            if (shape == '\n' || row.length == colCount) {
+                if (prev != '\n' && as_rows || row.length == colCount) {
                     grid.push(row = [])
+                    prev = '\n'
                 }
             } else {
-                row.push(shape)
+            	if (shape.match(/^[a-z]\w*:$/)) {
+            		name = shape.slice(0, -1)
+                    d.s = d.s.replace(name, ' ')
+                    no_key = false
+                    continue
+            	}
+                row.push(name ? {shape, name} : shape)
+                name = ''
                 d.s = d.s.replace(shape, ' ')
             }
             prev = shape
         }
-        console.log({ grid })
+        console.log({ grid, no_key, no_err, as_rows })
         if (!row.length) {
             grid.pop()
         }
@@ -106,10 +120,21 @@ function imgShapeGrid(grid, size, { no_key, no_err, as_rows }) {
 
     for (let row of grid) {
         for (let shape of row) {
+        	let key = ''
+        	if (typeof shape == 'string') {
+                key = !no_key && shape
+        	} else {
+        		key = shape.name || !no_key && shape
+        		shape = shape.shape
+        	}
+//         	key = 1234
+//         	shape = "Ru:"
 
             ctx.save()
             ctx.translate(i * size, j * (size + keyH))
+            ctx.save()
             let errs = drawShapest(shape, cv, ctx, size);
+            ctx.restore()
             ctx.font = `bold ${0.8 * keyH}px "Courier New"`
             if (errs && errs[0] && !no_err) {
                 ctx.fillStyle = 'red'
@@ -117,11 +142,11 @@ function imgShapeGrid(grid, size, { no_key, no_err, as_rows }) {
                 ctx.textBaseline = 'top'
                 ctx.fillText(errs[0].message.replace(/<[^>]*>/g, ''), 0, 0, size)
             }
-            if (!no_key) {
+            if (key) {
                 ctx.fillStyle = 'white'
                 ctx.textAlign = 'end'
                 ctx.textBaseline = 'bottom'
-                ctx.fillText(shape, size, size + keyH, size)
+                ctx.fillText(key, size, size + keyH, size)
             }
 
             ctx.restore()

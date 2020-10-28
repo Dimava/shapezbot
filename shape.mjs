@@ -354,7 +354,7 @@ function internalGenerateShapeBuffer(layers, canvas, context, w, h, dpi=1) {
 					context.moveTo(0, 0);
 				}
 				began = args;
-				console.log({w:context.lineWidth})
+// 				console.log({w:context.lineWidth})
 			}
 			function end() {
 				if (!began) {
@@ -438,5 +438,5 @@ export function drawShapest(key, canvas, context, size) {
 
     new ShapestItem(key).drawFullSizeOnCanvas(context, size);
 
-    return [];
+    return undefined;
 }
