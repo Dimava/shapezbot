@@ -17,7 +17,7 @@ export const cmd_display_shape = {
     main: true,
 }
 
-const rg_shape = /(?<=\s|"|^)([^:\s]*:\S*|([A-Z][a-z]|--){4})|\n/g
+const rg_shape = /(?<=\s|"|^)([^:\s"]*:\S*|([A-Z][a-z]|--){4})|\n/g
 
 export const cmd_any_shape = {
     type: 'always',
@@ -27,6 +27,7 @@ export const cmd_any_shape = {
         let as_rows = tryReplace(data, /as_rows/i)
         let no_err = 1 || tryReplace(data, /no_err|!/i)
         let no_key = tryReplace(data, /no_key|!/i)
+        let no_name = tryReplace(data, /no_name/i)
 
         let d = parseArgs(data.s, 'size')
         data.s = d.s
@@ -43,7 +44,7 @@ export const cmd_any_shape = {
         if (!allShapesRaw || !allShapesRaw.find(e => e != '\n')) {
             return
         }
-        allShapesRaw = allShapesRaw.map(e=>e=='\n'?e:e.trim())
+        allShapesRaw = allShapesRaw.map(e=>e=='\n'?e:e.trim()).map(e=>e.slice(e.startsWith('"')))
         let row = []
         let grid = [row]
         let prev = '\n'
@@ -56,8 +57,8 @@ export const cmd_any_shape = {
                 }
             } else {
             	if (shape.match(/^[a-z]\w*:$/)) {
-            		name = shape.slice(0, -1)
                     d.s = d.s.replace(name, ' ')
+					name = shape.slice(0, -1)
                     no_key = false
                     continue
             	}
@@ -67,12 +68,12 @@ export const cmd_any_shape = {
             }
             prev = shape
         }
-        console.log({ grid, no_key, no_err, as_rows })
+        console.log({ grid, no_key, no_err, as_rows, no_name })
         if (!row.length) {
             grid.pop()
         }
 
-        message.channel.send(imgShapeGrid(grid, size, { no_key, no_err, as_rows }))
+        message.channel.send(imgShapeGrid(grid, size, { no_key, no_err, as_rows, no_name }))
     }
 }
 
@@ -111,7 +112,7 @@ function imgShapeSingle(key, typeKey, typeErr) {
     return new MessageAttachment(cv.toBuffer(), `shape-${key}.png`)
 }
 
-function imgShapeGrid(grid, size, { no_key, no_err, as_rows }) {
+function imgShapeGrid(grid, size, { no_key, no_err, as_rows, no_name }) {
     let keyH = no_key ? 0 : Math.ceil(size * 0.2)
     let cv = Canvas.createCanvas(size * Math.max(...grid.map(e => e.length)), (size + keyH) * grid.length)
     let ctx = cv.getContext('2d')
@@ -124,11 +125,9 @@ function imgShapeGrid(grid, size, { no_key, no_err, as_rows }) {
         	if (typeof shape == 'string') {
                 key = !no_key && shape
         	} else {
-        		key = shape.name || !no_key && shape
+        		key = !no_name && shape.name || !no_key && shape.shape
         		shape = shape.shape
         	}
-//         	key = 1234
-//         	shape = "Ru:"
 
             ctx.save()
             ctx.translate(i * size, j * (size + keyH))

@@ -211,7 +211,7 @@ function checkImpossible(key) {
     }
     let highestReached = 0;
     for (let j = 0; j < 4; j++) {
-        console.log(j, forms.map(e => e.toString(2)));
+//         console.log(j, forms.map(e => e.toString(2)));
         // second, check if half has no empty layers and other half is dropped
         let hasNoEmpty = true;
         let l1, l2;
