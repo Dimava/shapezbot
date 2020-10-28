@@ -17,7 +17,7 @@ export const cmd_display_shape = {
     main: true,
 }
 
-const rg_shape = /(?<=\s|"|^)([^:\s"]*:[^\s"]*|([A-Z][a-z]|--){4})|\n/g
+const rg_shape = /[^\s"]*[^\s"]:[^\s"]*|(?<=")(6[\w-]{12}|4[\w-]{8})(?=")|(([A-Z][a-z]|--){4})|\n/g
 
 export const cmd_any_shape = {
     type: 'always',
@@ -50,10 +50,13 @@ export const cmd_any_shape = {
         let prev = '\n'
         let name = ''
         for (let shape of allShapesRaw) {
-            if (shape == '\n' || row.length == colCount) {
-                if (prev != '\n' && as_rows || row.length == colCount) {
-                    grid.push(row = [])
-                    prev = '\n'
+        	if (row.length == colCount) {
+				grid.push(row = [])
+				prev = '\n'
+        	}
+            if (shape == '\n') {
+                if (prev != '\n' && as_rows) {
+				    grid.push(row = [])
                 }
             } else {
             	if (shape.match(/^[a-z]\w*:$/)) {
