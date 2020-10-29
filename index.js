@@ -155,8 +155,11 @@ function initSay() {
             return join_voice(message);
         }
 
-        if (message.content.startsWith('say ') || message.content.startsWith('tts ')) {
-            return sayText(message.cleanContent.slice(4), message);
+        let prefixes = ["say ", "й ", "tts", "tell_dimava "]
+        let p = prefixes.find(e => message.content.startsWith(e));
+
+        if (p) {
+            return sayText(message.cleanContent.replace(p, ''), message);
         }
 
     }
@@ -185,9 +188,18 @@ function initSay() {
             message.channel.send('I\'m not in a voice channell!')
         }
 
+        console.log("saying", {text})
+
         let own_index = say_index++;
 
-        say.export(text, voice("david"), 1, `./wav/text_${own_index}.wav`, () => {
+        let man = message.content.match(/[а-яА-Я]/) ? "maxim" : "david"
+
+        if (message.content.startsWith('tell_dimava')) {
+            say.speak(text, voice(man), 1)
+            return
+        }
+
+        say.export(text, voice(man), 1, `./wav/text_${own_index}.wav`, () => {
             let s = fs.createReadStream(`./wav/text_${own_index}.wav`);
             voice_connection.play(s);
         })

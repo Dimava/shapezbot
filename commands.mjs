@@ -25,6 +25,9 @@ let cmd_halt = {
 		if (message.author.bot) {
 			return 'halt';
 		}
+		if (message.guild.name == "shapez.io") {
+			return 'halt';
+		}
 	},
 }
 
