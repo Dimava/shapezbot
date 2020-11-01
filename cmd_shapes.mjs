@@ -80,6 +80,10 @@ export const cmd_any_shape = {
         if (!grid.length) {
             return;
         }
+        let count = Math.max(grid.length, ...grid.map(e=>e.length))
+        if (count * size > 4000) {
+            size = Math.floor(4000 / count)
+        }
 
         message.channel.send(imgShapeGrid(grid, size, { no_key, no_err, as_rows, no_name }))
     }
