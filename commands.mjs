@@ -73,7 +73,7 @@ function runCommand(cmd, message, data) {
 	if (cmd.type == 'fn') {
 		let { s, args } = parseArgs(data.s, cmd.fname);
 		if (!args) {
-			return;
+			return 'nop';
 		}
 		console.log(`running ${cmd.id} with args [${args}]...`)
 		data.s = s;
@@ -82,7 +82,7 @@ function runCommand(cmd, message, data) {
 	if (cmd.type == 'match') {
 		let m = data.s.match(cmd.fname)
 		if (!m) {
-			return;
+			return 'nop';
 		}
 		console.log(`running ${cmd.id}...`)
 		data.s = data.s.replace(cmd.fname, '')
@@ -94,7 +94,7 @@ function runCommand(cmd, message, data) {
 	}
 	if (cmd.type == 'if') {
 		let v = cmd.condition(data.s)
-		if (!v) return;
+		if (!v) return 'nop';
 		console.log(`running ${cmd.id}...`)
 		return cmd.fn(message, data, v)
 	}
@@ -106,11 +106,17 @@ export function onMessage(message) {
 	console.log(message.content)
 	let data = { message, s: message.cleanContent, value: null, cmd: null, };
 	for (let cmd of cmd_list) {
-		let value = runCommand(cmd, message, data);
-		if (value) {
-			data.value = value;
-			data.cmd = cmd.id;
-			if (value == 'halt') return;
+		let maxRepeat = cmd.repeat || 1;
+		for (let i = 0; i < maxRepeat; i++) {
+			let value = runCommand(cmd, message, data);
+			if (value == 'nop') {
+				break;
+			}
+			if (value) {
+				data.value = value;
+				data.cmd = cmd.id;
+				if (value == 'halt') return;
+			}
 		}
 	}
 }

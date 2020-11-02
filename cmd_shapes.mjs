@@ -205,6 +205,7 @@ export const cmd_add_color = {
     fname: 'add_color',
     fn: add_color,
     main: true,
+    repeat: 30,
 }
 function add_color(message, data, args) {
     if (!args || !args.length) {
