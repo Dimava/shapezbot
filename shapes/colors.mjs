@@ -170,7 +170,7 @@ export function initColors() {
         let data = allColorData[c1];
         assert(data);
         assert(data.id == c1);
-        assert(data.code.toLowerCase() == data.code);
+        // assert(data.code.toLowerCase() == data.code);
         if (data.disabled) {
             continue;
         }
