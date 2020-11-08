@@ -116,6 +116,7 @@ export function onMessage(message) {
 __***RUNTIME ERROR***__
 \`\`\`
 ${ err.toString().replace(/``/g, "` `").replace(/</g, "< ") }
+${ err.message.replace(/``/g, "` `").replace(/</g, "< ") }
 \`\`\`
 `)
 				return;
