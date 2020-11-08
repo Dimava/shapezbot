@@ -108,7 +108,19 @@ export function onMessage(message) {
 	for (let cmd of cmd_list) {
 		let maxRepeat = cmd.repeat || 1;
 		for (let i = 0; i < maxRepeat; i++) {
-			let value = runCommand(cmd, message, data);
+			let value;
+			try {
+				value = runCommand(cmd, message, data);
+			} catch(err) {
+				message.channel.send(`
+__***RUNTIME ERROR***__
+\`\`\`
+${ err.toString().replace(/``/g, "` `").replace(/</g, "< ") }
+\`\`\`
+`)
+				return;
+			}
+
 			if (value == 'nop') {
 				break;
 			}
