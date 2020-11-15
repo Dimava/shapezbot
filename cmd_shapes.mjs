@@ -67,7 +67,7 @@ export const cmd_any_shape = {
                     no_key = false
                     continue
             	}
-                row.push(name ? {shape, name} : shape)
+                row.push(name ? {shape, name, toString(){return this.name;}} : shape)
                 name = ''
                 d.s = d.s.replace(shape, ' ')
             }
