@@ -114,6 +114,8 @@ client.on('message', message => {
 
 client.on('ready', () => {
     console.log('I am ready!');
+    let c = await client.channels.fetch("728969392569712673");
+    c.send("`\\o/`    I, *<@!728300785749721178>*, got to live yet again    `\\o/`");
 }
 );
 // Log our bot in using the token from https://discordapp.com/developers/applications/me
