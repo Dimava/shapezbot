@@ -213,32 +213,62 @@ function add_color(message, data, args) {
         return
     }
     let hex = args[0]
-    let code = args[1] && args[1][0] || hex.split('').filter(e=>e.match(/[a-z]/)).find(e=>!Object.values(allColorData).find(cl=>cl.code==e))
+    let code = args[1] && args[1][0] || hex.split('').filter(e => e.match(/[a-z]/)).find(e => !Object.values(allColorData).find(cl => cl.code == e))
     if (!code) {
         message.channel.send('No free code available, use second argument')
         return
     }
     let id = hex + '/' + code
 
-	 let alike = Object.values(allColorData).find(e=>e.code==code);
- 	 if (alike) {
+    let alike = Object.values(allColorData).find(e => e.code == code);
+    if (alike) {
         if (!alike.id.includes('/')) {
-            message.channel.send(`can't override builtin color \`${ alike.id }\``)
+            message.channel.send(`can't override builtin color \`${alike.id}\``)
             return 'halt'
         }
-		 delete allColorData[alike.id];
-		 if (customColors.includes(alike)) {
-			 customColors.splice(customColors.indexOf(alike), 1)
-		 };
-	 }
+        delete allColorData[alike.id];
+        if (customColors.includes(alike)) {
+            customColors.splice(customColors.indexOf(alike), 1)
+        };
+    }
 
-	 registerCustomColor({ id, code, hex });
-	 initColors();
-	 message.channel.send(
-		 `Added new color: { id: \`${id}\`, code: \`${code}\`, hex: \`${hex}\` }`,
-		 imgShapeSingle(`C${code}`.repeat(4), true, false),
-	 );
-	 return
+    registerCustomColor({ id, code, hex });
+    initColors();
+    message.channel.send(
+        `Added new color: { id: \`${id}\`, code: \`${code}\`, hex: \`${hex}\` }`,
+        imgShapeSingle(`C${code}`.repeat(4), true, false),
+    );
+    return
+}
+
+export const cmd_remove_color = {
+    type: 'fn',
+    id: 'remove_color',
+    fname: 'remove_color',
+    fn: remove_color,
+    main: true,
+    repeat: 30,
+}
+function remove_color(message, data, args) {
+    if (!args || !args.length) {
+        message.channel.send('Invalid remove_color form, use as  **remove_color(`symbol`)**')
+        return
+    }
+    let code = args[0];
+    let alike = Object.values(allColorData).find(e => e.code == code);
+    if (alike) {
+        if (!alike.id.includes('/')) {
+            message.channel.send(`can't delete builtin color \`${alike.id}\``)
+            return 'halt'
+        }
+        delete allColorData[alike.id];
+        if (customColors.includes(alike)) {
+            customColors.splice(customColors.indexOf(alike), 1)
+        };
+    } else {
+        message.channel.send(`coror with code \`${code}\` not found\``);
+        return 'halt'
+    }
 }
 
 // function tryShape(text, message) {
