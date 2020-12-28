@@ -266,8 +266,9 @@ function remove_color(message, data, args) {
         if (customColors.includes(alike)) {
             customColors.splice(customColors.indexOf(alike), 1)
         };
+        message.channel.send(`color ~~\`${alike.id}\`~~ with code ~~\`${code}\`~~ succesfully deleted\``);
     } else {
-        message.channel.send(`coror with code \`${code}\` not found\``);
+        message.channel.send(`color with code \`${code}\` not found\``);
         return 'halt'
     }
 }
