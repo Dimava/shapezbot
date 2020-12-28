@@ -4,6 +4,7 @@ import Canvas from 'canvas';
 export * from "./shape.mjs";
 import { allColorData, drawShape, drawShapest, customColors, customShapes, registerCustomColor, registerCustomShape, initColors, initShapes } from "./shape.mjs"
 import { tryReplace, parseArgs } from "./utils.mjs";
+import { shape4svg, shape6svg } from "./shapest_item.mjs";
 
 function display_shape(message, data, args) {
     message.channel.send(imgShapeSingle(args[0] || "Cr", false, false))
@@ -46,28 +47,28 @@ export const cmd_any_shape = {
         if (!allShapesRaw || !allShapesRaw.find(e => e != '\n')) {
             return
         }
-        allShapesRaw = allShapesRaw.map(e=>e=='\n'?e:e.trim()).map(e=>e.slice(e.startsWith('"')))
+        allShapesRaw = allShapesRaw.map(e => e == '\n' ? e : e.trim()).map(e => e.slice(e.startsWith('"')))
         let row = []
         let grid = [row]
         let prev = '\n'
         let name = ''
         for (let shape of allShapesRaw) {
-        	if (row.length == colCount) {
+            if (row.length == colCount) {
 				grid.push(row = [])
 				prev = '\n'
-        	}
+            }
             if (shape == '\n') {
                 if (prev != '\n' && as_rows) {
-				    grid.push(row = [])
+                    grid.push(row = [])
                 }
             } else {
-            	if (shape.match(/^[a-z]\w*:$/)) {
+                if (shape.match(/^[a-z]\w*:$/)) {
                     d.s = d.s.replace(name, ' ')
 					name = shape.slice(0, -1)
                     no_key = false
                     continue
-            	}
-                row.push(name ? {shape, name, toString(){return this.name;}} : shape)
+                }
+                row.push(name ? { shape, name, toString() { return this.name; } } : shape)
                 name = ''
                 d.s = d.s.replace(shape, ' ')
             }
@@ -80,7 +81,7 @@ export const cmd_any_shape = {
         if (!grid.length) {
             return;
         }
-        let count = Math.max(grid.length, ...grid.map(e=>e.length))
+        let count = Math.max(grid.length, ...grid.map(e => e.length))
         if (count * size > 4000) {
             size = Math.floor(4000 / count)
         }
@@ -133,13 +134,13 @@ function imgShapeGrid(grid, size, { no_key, no_err, as_rows, no_name }) {
 
     for (let row of grid) {
         for (let shape of row) {
-        	let key = ''
-        	if (typeof shape == 'string') {
+            let key = ''
+            if (typeof shape == 'string') {
                 key = !no_key && shape
-        	} else {
-        		key = !no_name && shape.name || !no_key && shape.shape
-        		shape = shape.shape
-        	}
+            } else {
+                key = !no_name && shape.name || !no_key && shape.shape
+                shape = shape.shape
+            }
 
             ctx.save()
             ctx.translate(i * size, j * (size + keyH))
@@ -179,7 +180,7 @@ export const cmd_all_shapes = {
     main: true,
 }
 function all_shapes(message, data, arg) {
-    let all_shapes = ` ${Object.values(allShapeData).filter(e=>e.code.match(/[A-Z]/)).map(e=>e.code).join(': ')}: `
+    let all_shapes = ` ${Object.values(allShapeData).filter(e => e.code.match(/[A-Z]/)).map(e => e.code).join(': ')}: `
     data.s += all_shapes
 }
 
@@ -192,7 +193,7 @@ export const cmd_all_colors = {
     main: true,
 }
 function all_colors(message, data, arg) {
-    let all_colors = ` C${Object.values(allColorData).map(e=>e.code == '-' ? '-C-C-C-' : e.code).join(': C')}: `
+    let all_colors = ` C${Object.values(allColorData).map(e => e.code == '-' ? '-C-C-C-' : e.code).join(': C')}: `
     data.s += all_colors
 }
 
@@ -322,7 +323,7 @@ export const cmd_add_shape = {
     fn: add_shape,
     main: true,
 }
-function add_shape(message, data, args) {}
+function add_shape(message, data, args) { }
 // function addCustomShape(text, message) {
 //	 if (!text.includes('add_shape')) return text;
 //	 return text;
@@ -339,7 +340,7 @@ export const cmd_clear_shapes = {
     fn: clear_shapes,
     main: true,
 }
-function clear_shapes(message, data, args) {}
+function clear_shapes(message, data, args) { }
 // function clearShapes(text, message) {
 // 	if (!text.includes('clear_shapes')) return text;
 // 	text = text.replace(/clear_shapes/, '')

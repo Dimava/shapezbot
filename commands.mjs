@@ -2,12 +2,12 @@ import { parseArgs } from "./utils.mjs"
 
 
 import {
-    cmd_display_shape,
-    cmd_any_shape,
-    cmd_add_color,
-    cmd_remove_color,
-    cmd_all_colors,
-    cmd_all_shapes,
+	cmd_display_shape,
+	cmd_any_shape,
+	cmd_add_color,
+	cmd_remove_color,
+	cmd_all_colors,
+	cmd_all_shapes,
 } from "./cmd_shapes.mjs";
 
 
@@ -60,8 +60,8 @@ export let commands = {};
 
 export let cmd_list = [
 	cmd_halt,
-    cmd_all_colors,
-    cmd_all_shapes,
+	cmd_all_colors,
+	cmd_all_shapes,
 	cmd_display_shape,
 	cmd_help,
 	cmd_add_color,
@@ -113,12 +113,12 @@ export function onMessage(message) {
 			let value;
 			try {
 				value = runCommand(cmd, message, data);
-			} catch(err) {
+			} catch (err) {
 				message.channel.send(`
 __***RUNTIME ERROR***__
 \`\`\`
-${ err.toString().replace(/``/g, "` `").replace(/</g, "< ") }
-${ err.message.replace(/``/g, "` `").replace(/</g, "< ") }
+${ err.toString().replace(/``/g, "` `").replace(/</g, "< ")}
+${ err.message.replace(/``/g, "` `").replace(/</g, "< ")}
 \`\`\`
 `)
 				return;
