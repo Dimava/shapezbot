@@ -114,13 +114,24 @@ export function onMessage(message) {
 			try {
 				value = runCommand(cmd, message, data);
 			} catch (err) {
+				if (message.content.includes('im out')) {
+					return;
+				}
+				let add = '';
+				if (message.content.includes('RUNTIME ERROR')) {
+					add = `
+
+...
+fuck it, im out
+`
+				}
 				message.channel.send(`
 __***RUNTIME ERROR***__
 \`\`\`
 ${ err.toString().replace(/``/g, "` `").replace(/</g, "< ")}
 ${ err.message.replace(/``/g, "` `").replace(/</g, "< ")}
 \`\`\`
-`)
+${add}`)
 				return;
 			}
 
