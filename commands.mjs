@@ -172,5 +172,7 @@ Add_color(#FFFFFF,7)
 Add_color(#808080,8)
 Add_color(#9966CC,a)
 `, get cleanContent() { return this.content },
-	channel: { send() { } },
+	channel: { send() { }, name:'shapebot', },
+	author:{},
+	guild: {},
 })
