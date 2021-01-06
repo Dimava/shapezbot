@@ -150,3 +150,27 @@ ${add}`)
 console.log(commands);
 
 export default commands;
+
+
+
+onMessage({
+	content: `
+add_color(orange,o)
+add_color(pink,i)
+add_color(teal,t)
+add_color(#7d4406,n)
+add_color(#b3ff66,l)
+add_color(#66ffb3,s)
+add_color(#000000,0)
+add_color(#0000FF,1)
+add_color(#00FF00,2)
+Add_color(#00FFFF,3)
+Add_color(#FF0000,4)
+Add_color(#FF00FF,5)
+Add_color(#FFFF00,6)
+Add_color(#FFFFFF,7)
+Add_color(#808080,8)
+Add_color(#9966CC,a)
+`, get cleanContent() { return this.content },
+	channel: { send() { } },
+})
