@@ -459,7 +459,7 @@ export const shape4svg = {
     R: "M 0 0 L 1 0 L 1 1 L 0 1 Z",
     C: "M 0 0 L 1 0 A 1 1 0 0 1 0 1 Z",
     S: "M 0 0 L 0 0.6 L 1 1 L 0.6 0 Z",
-    W: "M 0 0 L 0 0.6 L 1 1 L 1 0 Z",
+    W: "M 0 0 L 0.6 0 L 1 1 L 0 1 Z",
     "-": "M 0 0",
 }
 
