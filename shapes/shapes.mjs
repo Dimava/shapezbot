@@ -97,7 +97,7 @@ export const allShapeData = {
         minChance: 6 + 7 / 2,
         distChance: 1 / 2,
         maxChance: 26,
-        draw: "M 0 0 L 0.6 0 1 1 0 1 z",
+        draw: "M 0 0 L 0 0.6 1 1 1 0 z",
         layer: 0,
     },
 };
