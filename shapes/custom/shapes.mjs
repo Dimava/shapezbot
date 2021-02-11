@@ -76,13 +76,7 @@ registerCustomShape({
     id: "rhombus",
     code: "B",
     ...customDefaults,
-    draw({ dims, innerDims, layer, quad, context, color, begin }) {
-        begin({ size: 1.2, path: true, zero: true });
-        const rad = 0.001;
-        // with rounded borders
-        context.arcTo(0, 1, 1, 0, rad);
-        context.arcTo(1, 0, 0, 0, rad);
-    },
+    draw: "M 0 0 L 0 1 L 1 0 Z",
     tier: 4,
 });
 
